@@ -26,19 +26,35 @@ class _FavouriteItemPageState extends State<FavouriteItemPage> {
     setState(() {});
   }
 
-  removeItems(Map<String,dynamic> productData) async {
-    await fireStoreService.removeItemsFromCart(productData);
-    Get.snackbar(
-      "${productData['title']}",
-      "Successfully removed from cart",
-      snackPosition: SnackPosition.BOTTOM,
-      backgroundColor: Colors.green,
-      colorText: Colors.white,
-    );
-    favouriteItems.clear();
-    allItems.clear();
-    showItems.clear();
-    getAllItems();
+  removeItems(Map<String, dynamic> productData) async {
+    Get.defaultDialog(
+        title: "Acknowledgement",
+        middleText: "To remove item from cart tap on yes",
+        actions: [
+          TextButton(
+            onPressed: () async {
+              await fireStoreService.removeItemsFromCart(productData);
+              Get.snackbar(
+                "${productData['title']}",
+                "Successfully removed from cart",
+                snackPosition: SnackPosition.BOTTOM,
+                backgroundColor: Colors.green,
+                colorText: Colors.white,
+              );
+              favouriteItems.clear();
+              allItems.clear();
+              showItems.clear();
+              getAllItems();
+            },
+            child: const Text('Yes'),
+          ),
+          TextButton(
+            onPressed: () {
+              Get.back();
+            },
+            child: const Text('No'),
+          ),
+        ]);
   }
 
   @override
@@ -68,12 +84,17 @@ class _FavouriteItemPageState extends State<FavouriteItemPage> {
                     backgroundImage: NetworkImage(showItems[index]['url']),
                     radius: Get.width * 0.1,
                   ),
-                  Text(showItems[index]['title']),
                   Text(
-                      '${showItems[index]['price']} TK ${showItems[index]['unit'].toString().toUpperCase()}'),
+                    showItems[index]['title'],
+                    style: const TextStyle(overflow: TextOverflow.ellipsis),
+                  ),
+                  Text(
+                    '${showItems[index]['price']} TK ${showItems[index]['unit'].toString().toUpperCase()}',
+                    style: const TextStyle(overflow: TextOverflow.ellipsis),
+                  ),
                   OutlinedButton(
                     onPressed: () async {
-                     await removeItems(showItems[index]);
+                      await removeItems(showItems[index]);
                     },
                     child: const Text("Remove"),
                   ),

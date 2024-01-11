@@ -6,6 +6,7 @@ import 'package:marz_bakes/ui/customer/cart_page.dart';
 import 'package:marz_bakes/ui/customer/orders_page.dart';
 import 'package:marz_bakes/ui/customer/view_menu_page.dart';
 import 'package:marz_bakes/ui/customer/favourite_items_page.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -90,6 +91,13 @@ class _HomePageState extends State<HomePage> {
 
         ],
         currentIndex: currentIndex,
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: ()async {
+          Uri whatsapp = Uri.parse("https://wa.me/+8801977842497?text= ");
+          await canLaunchUrl(whatsapp) ? launchUrl(whatsapp) : throw 'exe';
+        },
+        child: const Icon(Icons.messenger),
       ),
     );
   }

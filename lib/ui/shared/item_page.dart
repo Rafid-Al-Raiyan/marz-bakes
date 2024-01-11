@@ -216,17 +216,17 @@ class _ItemPageState extends State<ItemPage> {
                             children: [
                               cartItems.contains(allItems[index]['id'])
                                   ? const Icon(Icons.shopping_cart, color: Colors.white)
-                                  : SizedBox(height: Get.height * 0.026),
+                                  : SizedBox(height: Get.height * 0.02),
                               favouriteItems.contains(allItems[index]['id'])
                                   ? const Icon(Icons.favorite, color: Colors.white)
-                                  : SizedBox(height: Get.height * 0.026),
+                                  : SizedBox(height: Get.height * 0.02),
                             ],
                           ),
                           CircleAvatar(
                             backgroundImage: NetworkImage(
                               allItems[index]['url'],
                             ),
-                            radius: Get.width * 0.12,
+                            radius: Get.width * 0.1,
                           ),
                           Text(
                             allItems[index]['title'],

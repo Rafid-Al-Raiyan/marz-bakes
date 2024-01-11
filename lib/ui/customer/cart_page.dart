@@ -27,22 +27,37 @@ class _CartPageState extends State<CartPage> {
     setState(() {});
   }
 
-  removeItems(Map<String,dynamic> productData) async {
-    await fireStoreService.removeItemsFromCart(productData);
-    Get.snackbar(
-      "${productData['title']}",
-      "Successfully removed from cart",
-      snackPosition: SnackPosition.BOTTOM,
-      backgroundColor: Colors.green,
-      colorText: Colors.white,
-    );
-    cartItems.clear();
-    allItems.clear();
-    showItems.clear();
-    getAllItems();
+  removeItems(Map<String, dynamic> productData) async {
+    Get.defaultDialog(
+        title: "Acknowledgement",
+        middleText: "To remove item from cart tap on yes",
+        actions: [
+          TextButton(
+            onPressed: () async {
+              await fireStoreService.removeItemsFromCart(productData);
+              Get.snackbar(
+                "${productData['title']}",
+                "Successfully removed from cart",
+                snackPosition: SnackPosition.BOTTOM,
+                backgroundColor: Colors.green,
+                colorText: Colors.white,
+              );
+              Get.back();
+              cartItems.clear();
+              allItems.clear();
+              showItems.clear();
+              getAllItems();
+            },
+            child: const Text('Yes'),
+          ),
+          TextButton(
+            onPressed: () {
+              Get.back();
+            },
+            child: const Text('No'),
+          ),
+        ]);
   }
-
-
 
   @override
   void initState() {
@@ -71,15 +86,22 @@ class _CartPageState extends State<CartPage> {
                     backgroundImage: NetworkImage(showItems[index]['url']),
                     radius: Get.width * 0.1,
                   ),
-                  Text(showItems[index]['title']),
                   Text(
-                      '${showItems[index]['price']} TK ${showItems[index]['unit'].toString().toUpperCase()}'),
+                    showItems[index]['title'],
+                    style: const TextStyle(overflow: TextOverflow.ellipsis),
+                  ),
+                  Text(
+                    '${showItems[index]['price']} TK ${showItems[index]['unit'].toString().toUpperCase()}',
+                    style: const TextStyle(overflow: TextOverflow.ellipsis),
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      OutlinedButton(onPressed: () {
-                        Get.to(const PlaceOrder(),arguments: showItems[index]);
-                      }, child: const Text("Order")),
+                      OutlinedButton(
+                          onPressed: () {
+                            Get.to(const PlaceOrder(), arguments: showItems[index]);
+                          },
+                          child: const Text("Order")),
                       SizedBox(width: Get.width * 0.01),
                       OutlinedButton(
                         onPressed: () async {
