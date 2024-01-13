@@ -28,8 +28,10 @@ class _PlaceOrderState extends State<PlaceOrder> {
   final phoneRegex = RegExp(r'^01[3-9]\d{8}$');
 
   addOrder() async {
-    print(isPickUp);
     Map<String, dynamic> orderData = {
+      'name': '',
+      'oid': '',
+      'ordered-by': '',
       'title': item['title'],
       'url': item['url'],
       'id': item['id'],
@@ -40,7 +42,25 @@ class _PlaceOrderState extends State<PlaceOrder> {
       'tid': transactionController.text.trim(),
       'status': 'pending',
     };
-    await fireStoreService.addOrders(orderData);
+    String response = await fireStoreService.addOrders(orderData);
+    if (response == 'success') {
+      Get.snackbar(
+        "Your order added successfully.",
+        "Check your order details from orders tab",
+        snackPosition: SnackPosition.BOTTOM,
+        colorText: Colors.white,
+        backgroundColor: Colors.green,
+      );
+    }
+    else{
+      Get.snackbar(
+        "Your order adding operation failed.",
+        "Try again. Thank you.",
+        snackPosition: SnackPosition.BOTTOM,
+        colorText: Colors.white,
+        backgroundColor: Colors.red,
+      );
+    }
   }
 
   datePicker() async {

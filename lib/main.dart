@@ -32,7 +32,7 @@ class _MarzBakesState extends State<MarzBakes> {
       debugShowCheckedModeBanner: false,
       theme: ThemeData.light().copyWith(
         colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFFFFC6D7),
+          seedColor:  Colors.pinkAccent.shade100,
         ),
       ),
       home: const SplashScreen(),

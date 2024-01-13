@@ -106,50 +106,56 @@ class FireStoreService {
   }
 
   addOrders(Map<String, dynamic> orderData) async {
-    String currentUser = FirebaseAuth.instance.currentUser!.email!;
-    dynamic allOrders = await fetchOrders();
-    bool updated = false;
-    for (var order in allOrders) {
-      if (order['id'] == orderData['id']) {
-        allOrders.remove(order);
-        updated = true;
-        allOrders.add(orderData);
-        break;
-      }
+    try {
+      String currentUser = FirebaseAuth.instance.currentUser!.email!;
+      DocumentSnapshot myData = await fireStore.collection('users').doc(currentUser).get();
+
+      DocumentReference documentReference = fireStore.collection('orders').doc();
+      orderData['name'] = myData.get('name');
+      orderData['oid'] = documentReference.id;
+      orderData['ordered-by'] = currentUser;
+      documentReference.set(orderData);
+      return 'success';
+    } catch (e) {
+      return 'fail';
     }
-    if (updated == false) {
-      allOrders.add(orderData);
-    }
-    await fireStore.collection('orders').doc(currentUser).set({'orders': allOrders});
   }
 
   fetchOrders() async {
-    dynamic allOrders = [];
+    dynamic myOrders = [];
     String currentUser = FirebaseAuth.instance.currentUser!.email!;
 
     try {
-      DocumentSnapshot documentSnapshot =
-          await fireStore.collection('orders').doc(currentUser).get();
-      allOrders = documentSnapshot.get('orders');
-      return allOrders;
-    } catch (e) {
-      return allOrders;
-    }
-  }
-  cancelOrder(Map<String, dynamic> orderData) async {
-    try{
-      String currentUser = FirebaseAuth.instance.currentUser!.email!;
-      dynamic allOrders = await fetchOrders();
+      QuerySnapshot querySnapshot = await fireStore.collection('orders').get();
+      dynamic allOrders = querySnapshot.docs.map((doc) => doc.data()).toList();
       for (var order in allOrders) {
-        if (order['id'] == orderData['id']) {
-          allOrders.remove(order);
-          break;
+        if (order['ordered-by'] == currentUser) {
+          myOrders.add(order);
         }
       }
-      await fireStore.collection('orders').doc(currentUser).set({'orders': allOrders});
+      return myOrders;
+    } catch (e) {
+      return myOrders;
+    }
+  }
+
+  cancelOrder(Map<String, dynamic> orderData) async {
+    try {
+      await fireStore.collection('orders').doc(orderData["oid"]).delete();
       return 'success';
-    } catch (e){
+    } catch (e) {
       return 'fail';
     }
+  }
+
+  fetchAllOrders() async {
+    dynamic allOrders = [];
+    QuerySnapshot querySnapshot = await fireStore.collection('orders').get();
+    allOrders = querySnapshot.docs.map((doc) => doc.data()).toList();
+    return allOrders;
+  }
+
+  updateOrderStatus(String orderID, String status) async {
+    await fireStore.collection('orders').doc(orderID).update({'status': status});
   }
 }

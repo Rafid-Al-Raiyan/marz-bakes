@@ -21,12 +21,11 @@ class AuthService {
     // print(isVerified);
     String status = '';
     try {
-      await auth.signInWithEmailAndPassword(email: email, password: password).then((value) async{
-        if(value.user!.emailVerified){
+      await auth.signInWithEmailAndPassword(email: email, password: password).then((value) async {
+        if (value.user!.emailVerified) {
           // print('verified');
           status = 'verified';
-        }
-        else{
+        } else {
           // print('Not verified');
           await value.user!.sendEmailVerification();
           status = 'Not verified';
@@ -41,5 +40,14 @@ class AuthService {
 
   logoutUser() async {
     await auth.signOut();
+  }
+
+  resetPassword(String email) async {
+    try {
+      await auth.sendPasswordResetEmail(email: email);
+      return 'success';
+    } catch (e) {
+      return 'fail';
+    }
   }
 }

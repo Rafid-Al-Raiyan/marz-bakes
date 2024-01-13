@@ -58,6 +58,50 @@ class _LogInPageState extends State<LogInPage> {
     }
   }
 
+  resetPassword() async {
+    Get.bottomSheet(
+      backgroundColor: Colors.white,
+      Container(
+        margin: const EdgeInsets.all(10),
+        child: Column(
+          children: [
+            SizedBox(height: Get.height * 0.03),
+            Text(
+              "Enter your email and click on sent button to get password reset link.",
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: Get.textScaleFactor * 16),
+              textAlign: TextAlign.center,
+            ),
+            TextFormField(
+              controller: emailController,
+              decoration: const InputDecoration(
+                  label: Text("Email"),
+                  prefixIcon: Icon(
+                    Icons.email,
+                    color: Colors.pinkAccent,
+                  )),
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                String response = await authService.resetPassword(emailController.text.trim());
+                Get.back();
+                if (response == 'success') {
+                  Get.snackbar(
+                    'Password Reset Email Sent',
+                    'Check your email ${emailController.text}',
+                    snackPosition:  SnackPosition.BOTTOM,
+                    backgroundColor: Colors.green,
+                    colorText: Colors.white,
+                  );
+                } else {}
+              },
+              child: const Text("Sent"),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -73,8 +117,10 @@ class _LogInPageState extends State<LogInPage> {
                 Divider(thickness: 2, color: color1),
                 Text(
                   "Welcome to the Marz Bakes",
-                  style:
-                      TextStyle(fontWeight: FontWeight.bold, fontSize: Get.textScaleFactor * 20),
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: Get.textScaleFactor * 20,
+                  ),
                   textAlign: TextAlign.center,
                 ),
                 Divider(thickness: 2, color: color1),
@@ -113,7 +159,7 @@ class _LogInPageState extends State<LogInPage> {
                 Align(
                   alignment: Alignment.centerRight,
                   child: TextButton(
-                    onPressed: () {},
+                    onPressed: resetPassword,
                     child: const Text("Forget Password?"),
                   ),
                 ),
