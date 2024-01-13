@@ -111,12 +111,13 @@ class FireStoreService {
       DocumentSnapshot myData = await fireStore.collection('users').doc(currentUser).get();
 
       DocumentReference documentReference = fireStore.collection('orders').doc();
-      orderData['name'] = myData.get('name');
+      orderData['name'] = await myData.get('Name');
       orderData['oid'] = documentReference.id;
       orderData['ordered-by'] = currentUser;
       documentReference.set(orderData);
       return 'success';
     } catch (e) {
+      print(e);
       return 'fail';
     }
   }

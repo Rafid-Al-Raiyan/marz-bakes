@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:marz_bakes/backend_services/firestore_services.dart';
@@ -17,6 +18,7 @@ class _PlaceOrderState extends State<PlaceOrder> {
   TextEditingController transactionController = TextEditingController();
   TextEditingController numberController = TextEditingController();
   TextEditingController dateController = TextEditingController();
+  TextEditingController descriptionController = TextEditingController();
   DateTime deliveryDate = DateTime.now().add(const Duration(days: 7));
 
   Map<String, dynamic> item = Get.arguments;
@@ -32,6 +34,8 @@ class _PlaceOrderState extends State<PlaceOrder> {
       'name': '',
       'oid': '',
       'ordered-by': '',
+      'comment': descriptionController.text.trim(),
+      'quantity': quantity,
       'title': item['title'],
       'url': item['url'],
       'id': item['id'],
@@ -51,8 +55,7 @@ class _PlaceOrderState extends State<PlaceOrder> {
         colorText: Colors.white,
         backgroundColor: Colors.green,
       );
-    }
-    else{
+    } else {
       Get.snackbar(
         "Your order adding operation failed.",
         "Try again. Thank you.",
@@ -91,13 +94,35 @@ class _PlaceOrderState extends State<PlaceOrder> {
                 Text(
                   "Place order 1 week before your event".toUpperCase(),
                   style: TextStyle(
-                      fontSize: Get.textScaleFactor * 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.red),
+                    fontSize: Get.textScaleFactor * 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.red,
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Bkash (Personal): +880 1977-842497",
+                      style: TextStyle(
+                        fontSize: Get.textScaleFactor * 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: () async {
+                        await Clipboard.setData(const ClipboardData(text: "01977842497"));
+                      },
+                      icon: const Icon(
+                        Icons.copy,
+                        size: 15,
+                      ),
+                    )
+                  ],
                 ),
                 CircleAvatar(
                   backgroundImage: NetworkImage(item['url']),
-                  radius: Get.width * 0.12,
+                  radius: Get.width * 0.1,
                 ),
                 Text(
                   item['title'],
@@ -142,6 +167,16 @@ class _PlaceOrderState extends State<PlaceOrder> {
                   ],
                 ),
                 TextFormField(
+                  controller: descriptionController,
+                  maxLines: null,
+                  minLines: null,
+                  decoration: const InputDecoration(
+                    label: Text("Description/Comment/Instruction"),
+                    prefixIcon: Icon(Icons.description_outlined),
+                    // helperText: "Delivery inside Sylhet only."
+                  ),
+                ),
+                TextFormField(
                   controller: numberController,
                   validator: (value) {
                     if (value!.isEmpty) {
@@ -166,10 +201,11 @@ class _PlaceOrderState extends State<PlaceOrder> {
                     return null;
                   },
                   decoration: const InputDecoration(
-                    label: Text("Bkash Transaction ID"),
-                    prefixIcon: Icon(Icons.abc_sharp),
-                    // helperText: "Delivery inside Sylhet only."
-                  ),
+                      label: Text("Bkash Transaction ID"),
+                      prefixIcon: Icon(Icons.abc_sharp),
+                      helperText: "Must pay 50% of total amount when placing order"
+                      // helperText: "Delivery inside Sylhet only."
+                      ),
                 ),
                 TextFormField(
                   controller: dateController,

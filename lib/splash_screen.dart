@@ -20,7 +20,7 @@ class _SplashScreenState extends State<SplashScreen> {
   List<String> adminEmails = [
     'marzbakes@gmail.com',
     'crystalizedmeteorite@gmail.com',
-    'cse_2012020024@lus.ac.bd'
+    'cse_2012020024@lus.ac.bd',
   ];
 
   @override

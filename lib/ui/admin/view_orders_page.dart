@@ -69,6 +69,14 @@ class _ViewOrdersState extends State<ViewOrders> {
                 ),
                 const Divider(color: Colors.transparent),
                 Text(
+                  "Quantity: ${orderDetails['quantity']}",
+                  style: TextStyle(
+                    fontSize: Get.textScaleFactor * 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const Divider(color: Colors.transparent),
+                Text(
                   "Payment: ${orderDetails['total']}",
                   style: TextStyle(
                     fontSize: Get.textScaleFactor * 16,
@@ -86,6 +94,14 @@ class _ViewOrdersState extends State<ViewOrders> {
                 const Divider(color: Colors.transparent),
                 Text(
                   "Delivery: ${orderDetails['delivery']}",
+                  style: TextStyle(
+                    fontSize: Get.textScaleFactor * 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const Divider(color: Colors.transparent),
+                Text(
+                  "Comment: ${orderDetails['comment']}",
                   style: TextStyle(
                     fontSize: Get.textScaleFactor * 16,
                     fontWeight: FontWeight.bold,

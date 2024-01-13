@@ -18,6 +18,12 @@ class LogInPage extends StatefulWidget {
 class _LogInPageState extends State<LogInPage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  List<String> adminEmails = [
+    'cse_2012020024@lus.ac.bd',
+    'crystalizedmeteorite@gmail.com',
+    'marzbakes@gmail.com',
+  ];
+
   AuthService authService = AuthService();
   FirebaseAuth auth = FirebaseAuth.instance;
 
@@ -30,7 +36,8 @@ class _LogInPageState extends State<LogInPage> {
     );
     // print(status);
     if (status == 'verified') {
-      if (auth.currentUser!.email!.toLowerCase() == 'crystalizedmeteorite@gmail.com') {
+      String email = auth.currentUser!.email!.toLowerCase();
+      if (adminEmails.contains(email)) {
         Get.offAll(const AdminHomePage());
       } else {
         Get.offAll(const HomePage());
@@ -88,7 +95,7 @@ class _LogInPageState extends State<LogInPage> {
                   Get.snackbar(
                     'Password Reset Email Sent',
                     'Check your email ${emailController.text}',
-                    snackPosition:  SnackPosition.BOTTOM,
+                    snackPosition: SnackPosition.BOTTOM,
                     backgroundColor: Colors.green,
                     colorText: Colors.white,
                   );

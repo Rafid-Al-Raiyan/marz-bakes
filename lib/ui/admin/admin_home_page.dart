@@ -45,7 +45,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Merz Bakes"),
+        title: const Text("Marz Bakes"),
         centerTitle: true,
         actions: [
           IconButton(

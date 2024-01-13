@@ -3,9 +3,9 @@ import 'package:get/get.dart';
 import 'package:marz_bakes/backend_services/auth_services.dart';
 import 'package:marz_bakes/ui/authentication/log_in_page.dart';
 import 'package:marz_bakes/ui/customer/cart_page.dart';
+import 'package:marz_bakes/ui/customer/favourite_items_page.dart';
 import 'package:marz_bakes/ui/customer/orders_page.dart';
 import 'package:marz_bakes/ui/customer/view_menu_page.dart';
-import 'package:marz_bakes/ui/customer/favourite_items_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class HomePage extends StatefulWidget {
@@ -25,8 +25,40 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Merz Bakes"),
+        title: const Text("Marz Bakes"),
         centerTitle: true,
+        bottom: PreferredSize(
+          preferredSize: Size(Get.width, Get.height * 0.05),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "Follow Us",
+                style: TextStyle(
+                    fontSize: Get.textScaleFactor * 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white),
+              ),
+              IconButton(
+                  onPressed: () async {
+                    Uri url = Uri.parse("https://www.facebook.com/marzbakes?mibextid=ZbWKwL");
+                    await launchUrl(url);
+                  },
+                  icon: const Image(
+                    image: AssetImage('images/facebook.png'),
+                  )),
+              IconButton(
+                  onPressed: () async {
+                    Uri url = Uri.parse("https://www.instagram.com/marzbakes_/");
+                    await launchUrl(url);
+                  },
+
+                  icon: const Image(
+                    image: AssetImage('images/insta.png'),
+                  )),
+            ],
+          ),
+        ),
         actions: [
           IconButton(
             onPressed: () {
@@ -56,7 +88,6 @@ class _HomePageState extends State<HomePage> {
       ),
       body: screens[currentIndex],
       bottomNavigationBar: BottomNavigationBar(
-
         onTap: (value) {
           setState(() {
             currentIndex = value;
@@ -88,16 +119,17 @@ class _HomePageState extends State<HomePage> {
               Icons.pending,
             ),
           ),
-
         ],
         currentIndex: currentIndex,
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: ()async {
+        onPressed: () async {
           Uri whatsapp = Uri.parse("https://wa.me/+8801977842497?text= ");
           await canLaunchUrl(whatsapp) ? launchUrl(whatsapp) : throw 'exe';
         },
-        child: const Icon(Icons.messenger),
+        child: const Image(
+          image: AssetImage('images/whatsapp.png'),
+        ),
       ),
     );
   }
