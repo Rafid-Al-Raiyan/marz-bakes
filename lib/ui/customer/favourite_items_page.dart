@@ -33,7 +33,8 @@ class _FavouriteItemPageState extends State<FavouriteItemPage> {
         actions: [
           TextButton(
             onPressed: () async {
-              await fireStoreService.removeItemsFromCart(productData);
+              Get.back();
+              await fireStoreService.removeItemsFromFavourite(productData);
               Get.snackbar(
                 "${productData['title']}",
                 "Successfully removed from cart",
@@ -41,10 +42,11 @@ class _FavouriteItemPageState extends State<FavouriteItemPage> {
                 backgroundColor: Colors.green,
                 colorText: Colors.white,
               );
+
               favouriteItems.clear();
               allItems.clear();
               showItems.clear();
-              getAllItems();
+              await getAllItems();
             },
             child: const Text('Yes'),
           ),
@@ -67,43 +69,57 @@ class _FavouriteItemPageState extends State<FavouriteItemPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: GridView.builder(
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          crossAxisSpacing: 8.0,
-          mainAxisSpacing: 2,
-        ),
-        itemCount: showItems.length,
-        itemBuilder: (context, index) {
-          return Card(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: [
-                  CircleAvatar(
-                    backgroundImage: NetworkImage(showItems[index]['url']),
-                    radius: Get.width * 0.1,
-                  ),
-                  Text(
-                    showItems[index]['title'],
-                    style: const TextStyle(overflow: TextOverflow.ellipsis),
-                  ),
-                  Text(
-                    '${showItems[index]['price']} TK ${showItems[index]['unit'].toString().toUpperCase()}',
-                    style: const TextStyle(overflow: TextOverflow.ellipsis),
-                  ),
-                  OutlinedButton(
-                    onPressed: () async {
-                      await removeItems(showItems[index]);
-                    },
-                    child: const Text("Remove"),
-                  ),
-                ],
+      body: showItems.isNotEmpty
+          ? GridView.builder(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 8.0,
+                mainAxisSpacing: 8.0,
               ),
+              itemCount: showItems.length,
+              itemBuilder: (context, index) {
+                return Card(
+                  color: Colors.pinkAccent.shade100,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      CircleAvatar(
+                        backgroundImage: NetworkImage(showItems[index]['url']),
+                        radius: Get.width * 0.1,
+                      ),
+                      Text(
+                        showItems[index]['title'],
+                        style: TextStyle(
+                          overflow: TextOverflow.ellipsis,
+                          fontSize: Get.textScaleFactor * 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                      Text(
+                        '${showItems[index]['price']} TK ${showItems[index]['unit'].toUpperCase()}',
+                        style: TextStyle(
+                          overflow: TextOverflow.ellipsis,
+                          fontSize: Get.textScaleFactor * 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                      OutlinedButton(
+                        style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
+                        onPressed: () async {
+                          await removeItems(showItems[index]);
+                        },
+                        child: const Text("Remove"),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            )
+          : const Center(
+              child: Text("No favourite found"),
             ),
-          );
-        },
-      ),
     );
   }
 }

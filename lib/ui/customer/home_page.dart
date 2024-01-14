@@ -25,7 +25,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Marz Bakes"),
+        title: const Text("MarzBakes"),
         centerTitle: true,
         bottom: PreferredSize(
           preferredSize: Size(Get.width, Get.height * 0.05),
@@ -46,6 +46,8 @@ class _HomePageState extends State<HomePage> {
                   },
                   icon: const Image(
                     image: AssetImage('images/facebook.png'),
+                    height: 25,
+                    width: 25,
                   )),
               IconButton(
                   onPressed: () async {
@@ -54,7 +56,9 @@ class _HomePageState extends State<HomePage> {
                   },
 
                   icon: const Image(
-                    image: AssetImage('images/insta.png'),
+                    image: AssetImage('images/instagram.png'),
+                    height: 40,
+                    width: 40,
                   )),
             ],
           ),

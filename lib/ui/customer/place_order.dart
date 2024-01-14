@@ -85,12 +85,13 @@ class _PlaceOrderState extends State<PlaceOrder> {
       ),
       body: SingleChildScrollView(
         child: Container(
-          height: Get.height,
+          height: Get.height * 1.2,
           padding: const EdgeInsets.all(8.0),
           child: Form(
             key: form,
             child: Column(
               children: [
+                SizedBox(height: Get.height * 0.01),
                 Text(
                   "Place order 1 week before your event".toUpperCase(),
                   style: TextStyle(
@@ -203,7 +204,11 @@ class _PlaceOrderState extends State<PlaceOrder> {
                   decoration: const InputDecoration(
                       label: Text("Bkash Transaction ID"),
                       prefixIcon: Icon(Icons.abc_sharp),
-                      helperText: "Must pay 50% of total amount when placing order"
+                      helperText: "Must pay 50% of total amount when placing order",
+                      helperStyle: TextStyle(
+                        color: Colors.red,
+                        fontWeight: FontWeight.w500,
+                      )
                       // helperText: "Delivery inside Sylhet only."
                       ),
                 ),
@@ -241,9 +246,14 @@ class _PlaceOrderState extends State<PlaceOrder> {
                       return null;
                     },
                     decoration: const InputDecoration(
-                        label: Text("Delivery Address"),
-                        prefixIcon: Icon(Icons.home_filled),
-                        helperText: "Delivery inside Sylhet only."),
+                      label: Text("Delivery Address"),
+                      prefixIcon: Icon(Icons.home_filled),
+                      helperText: "Delivery inside Sylhet only.",
+                        helperStyle: TextStyle(
+                          color: Colors.red,
+                          fontWeight: FontWeight.w500,
+                        )
+                    ),
                   ),
                 Text(
                   "Order Summary",

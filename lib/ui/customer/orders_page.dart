@@ -44,8 +44,7 @@ class _OrdersPageState extends State<OrdersPage> {
                   colorText: Colors.white,
                   backgroundColor: Colors.green,
                 );
-              }
-              else{
+              } else {
                 Get.snackbar(
                   "Order Cancellation Status",
                   "Your order cancellation failed. Try again later.",
@@ -68,7 +67,6 @@ class _OrdersPageState extends State<OrdersPage> {
 
   showOrderDetails(Map<String, dynamic> orderData) {
     Get.bottomSheet(
-
       backgroundColor: Colors.white,
       Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -124,7 +122,7 @@ class _OrdersPageState extends State<OrdersPage> {
           ),
           SizedBox(height: Get.height * 0.01),
           Text(
-            'Order Status: ${orderData['status']}',
+            'Order Status: ${orderData['status'].toUpperCase()}',
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: Get.textScaleFactor * 18,
@@ -132,10 +130,23 @@ class _OrdersPageState extends State<OrdersPage> {
             ),
           ),
           SizedBox(height: Get.height * 0.01),
-          ElevatedButton(onPressed: () {
-            Get.back();
-            cancelOrder(orderData);
-          }, child: const Text("Cancel Order"))
+          orderData['status'] == 'pending'
+              ? ElevatedButton(
+                  onPressed: () {
+                    Get.back();
+                    cancelOrder(orderData);
+                  },
+                  child: const Text("Cancel Order"),
+                )
+              : Text(
+                  "To cancel your confirmed order contract with seller",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: Get.textScaleFactor * 18,
+                    color: Colors.red,
+                  ),
+                  textAlign: TextAlign.center,
+                )
         ],
       ),
     );
@@ -151,12 +162,25 @@ class _OrdersPageState extends State<OrdersPage> {
             showOrderDetails(orderList[index]);
           },
           child: Card(
+            color: Colors.pinkAccent.shade100,
             child: ListTile(
               leading: CircleAvatar(
                 backgroundImage: NetworkImage(orderList[index]['url']),
               ),
-              title: Text(orderList[index]['title']),
-              subtitle: Text("Status: ${orderList[index]['status']}"),
+              title: Text(
+                orderList[index]['title'],
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              subtitle: Text(
+                "Status: ${orderList[index]['status'].toUpperCase()}",
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
           ),
         );

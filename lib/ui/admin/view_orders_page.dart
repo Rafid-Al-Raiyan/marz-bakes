@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:marz_bakes/backend_services/firestore_services.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ViewOrders extends StatefulWidget {
   const ViewOrders({Key? key}) : super(key: key);
@@ -45,23 +46,7 @@ class _ViewOrdersState extends State<ViewOrders> {
                 ),
                 const Divider(color: Colors.transparent),
                 Text(
-                  "Ordered by: ${orderDetails['name']}",
-                  style: TextStyle(
-                    fontSize: Get.textScaleFactor * 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const Divider(color: Colors.transparent),
-                Text(
-                  "Phone: ${orderDetails['phone']}",
-                  style: TextStyle(
-                    fontSize: Get.textScaleFactor * 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const Divider(color: Colors.transparent),
-                Text(
-                  "Email: ${orderDetails['ordered-by']}",
+                  "Item: ${orderDetails['title']}",
                   style: TextStyle(
                     fontSize: Get.textScaleFactor * 16,
                     fontWeight: FontWeight.bold,
@@ -114,6 +99,44 @@ class _ViewOrdersState extends State<ViewOrders> {
                     fontSize: Get.textScaleFactor * 16,
                     fontWeight: FontWeight.bold,
                   ),
+                ),
+                const Divider(color: Colors.transparent),
+                Text(
+                  "Ordered by: ${orderDetails['name']}",
+                  style: TextStyle(
+                    fontSize: Get.textScaleFactor * 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const Divider(color: Colors.transparent),
+
+                Text(
+                  "Email: ${orderDetails['ordered-by']}",
+                  style: TextStyle(
+                    fontSize: Get.textScaleFactor * 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const Divider(color: Colors.transparent),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Phone: ${orderDetails['phone']}",
+                      style: TextStyle(
+                        fontSize: Get.textScaleFactor * 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: () async{
+                        String number = orderDetails['phone'];
+                        final Uri url = Uri(scheme: 'tel', path: number);
+                        await launchUrl(url);
+                      },
+                      icon: const Icon(Icons.call),
+                    )
+                  ],
                 ),
                 Row(
                   children: [
@@ -168,7 +191,6 @@ class _ViewOrdersState extends State<ViewOrders> {
           return InkWell(
             onTap: () async {
               await viewDetails(allOrders[index]);
-
             },
             child: Card(
               child: ListTile(

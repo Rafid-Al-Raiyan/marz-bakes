@@ -43,6 +43,7 @@ class _UpdateItemPageState extends State<UpdateItemPage> {
       "price": int.parse(priceController.text.trim()),
       "unit": unitController.text.trim(),
       "url": imageUrl,
+      "id": item['id'],
     };
     String result = await fireStoreService.updateItem(productData);
     Get.snackbar(

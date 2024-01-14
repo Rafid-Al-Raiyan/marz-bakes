@@ -62,7 +62,7 @@ class FireStoreService {
     try {
       DocumentSnapshot documentSnapshot =
           await fireStore.collection('cart').doc(currentUser).get();
-      items = documentSnapshot.get('items');
+      items = await documentSnapshot.get('items');
 
       return items;
     } catch (e) {
@@ -74,6 +74,7 @@ class FireStoreService {
     String currentUser = FirebaseAuth.instance.currentUser!.email!;
     List<dynamic> items = await fetchItemsFromCart();
     items.remove(productData['id']);
+
     await fireStore.collection('cart').doc(currentUser).set({'items': items});
   }
 
@@ -91,7 +92,7 @@ class FireStoreService {
     try {
       DocumentSnapshot documentSnapshot =
           await fireStore.collection('favourite').doc(currentUser).get();
-      items = documentSnapshot.get('items');
+      items = await documentSnapshot.get('items');
       return items;
     } catch (e) {
       return items;
@@ -99,10 +100,17 @@ class FireStoreService {
   }
 
   removeItemsFromFavourite(Map<String, dynamic> productData) async {
-    String currentUser = FirebaseAuth.instance.currentUser!.email!;
-    List<dynamic> items = await fetchItemsFromFavourite();
-    items.remove(productData['id']);
-    await fireStore.collection('favourite').doc(currentUser).set({'items': items});
+    try{
+      String currentUser = FirebaseAuth.instance.currentUser!.email!;
+      List<dynamic> items = await fetchItemsFromFavourite();
+      print(items);
+      items.remove(productData['id']);
+      print(items);
+      await fireStore.collection('favourite').doc(currentUser).set({'items': items});
+    }
+    catch (e){
+      print(e);
+    }
   }
 
   addOrders(Map<String, dynamic> orderData) async {

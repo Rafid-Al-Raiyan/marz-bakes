@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:marz_bakes/splash_screen.dart';
 
 Future main() async {
@@ -31,8 +32,10 @@ class _MarzBakesState extends State<MarzBakes> {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData.light().copyWith(
+        textTheme: GoogleFonts.acmeTextTheme(),
         colorScheme: ColorScheme.fromSeed(
           seedColor:  Colors.pinkAccent.shade100,
+
         ),
       ),
       home: const SplashScreen(),

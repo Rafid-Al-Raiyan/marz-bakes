@@ -75,7 +75,7 @@ class _SignInPageState extends State<SignInPage> {
                   const IconWidget(iconSize: 140),
                   Divider(thickness: 2, color: color1),
                   Text(
-                    "Welcome to the Marz Bakes",
+                    "Welcome to the MarzBakes",
                     style:
                         TextStyle(fontWeight: FontWeight.bold, fontSize: Get.textScaleFactor * 20),
                     textAlign: TextAlign.center,

@@ -69,73 +69,64 @@ class _CartPageState extends State<CartPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: GridView.builder(
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          crossAxisSpacing: 8.0,
-          mainAxisSpacing: 2,
-        ),
-        itemCount: showItems.length,
-        itemBuilder: (context, index) {
-          return Card(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: [
-                  CircleAvatar(
-                    backgroundImage: NetworkImage(showItems[index]['url']),
-                    radius: Get.width * 0.1,
-                  ),
-                  Text(
-                    showItems[index]['title'],
-                    style: const TextStyle(overflow: TextOverflow.ellipsis),
-                  ),
-                  Text(
-                    '${showItems[index]['price']} TK ${showItems[index]['unit'].toString().toUpperCase()}',
-                    style: const TextStyle(overflow: TextOverflow.ellipsis),
-                  ),
-                  Row(
+      body: showItems.isNotEmpty
+          ? GridView.builder(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 8.0,
+                mainAxisSpacing: 8.0,
+              ),
+              padding: const EdgeInsets.all(8),
+              itemCount: showItems.length,
+              itemBuilder: (context, index) {
+                return Card(
+                  color: Colors.pinkAccent.shade100,
+                  child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      OutlinedButton(
-                          onPressed: () {
-                            Get.to(const PlaceOrder(), arguments: showItems[index]);
-                          },
-                          child: const Text("Order")),
-                      SizedBox(width: Get.width * 0.01),
-                      OutlinedButton(
-                        onPressed: () async {
-                          await removeItems(showItems[index]);
-                        },
-                        child: const Text("Remove"),
+                      CircleAvatar(
+                        backgroundImage: NetworkImage(showItems[index]['url']),
+                        radius: Get.width * 0.1,
+                      ),
+                      Text(
+                        showItems[index]['title'],
+                        style: TextStyle(overflow: TextOverflow.ellipsis,
+                        fontWeight: FontWeight.bold, fontSize: Get.textScaleFactor * 16, color:
+                            Colors.white),
+                      ),
+                      Text(
+                        '${showItems[index]['price']} TK ${showItems[index]['unit'].toString().toUpperCase()}',
+                        style: TextStyle(overflow: TextOverflow.ellipsis,
+                        fontWeight: FontWeight.bold, fontSize: Get.textScaleFactor * 16, color:
+                            Colors.white),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          OutlinedButton(
+                              style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
+                              onPressed: () {
+                                Get.to(const PlaceOrder(), arguments: showItems[index]);
+                              },
+                              child: const Text("Order")),
+                          SizedBox(width: Get.width * 0.01),
+                          OutlinedButton(
+                            style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
+                            onPressed: () async {
+                              await removeItems(showItems[index]);
+                            },
+                            child: const Text("Remove"),
+                          ),
+                        ],
                       ),
                     ],
                   ),
-                ],
-              ),
+                );
+              },
+            )
+          : const Center(
+              child: Text('No Cart Items'),
             ),
-          );
-        },
-      ),
     );
   }
 }
-// ListView.builder(
-// itemCount: showItems.length,
-// itemBuilder: (context, index) {
-// return Card(
-// child: ListTile(
-// leading: CircleAvatar(
-// backgroundImage: NetworkImage(showItems[index]['url']),
-// ),
-// title: Text(showItems[index]['title']),
-// subtitle: Row(
-// children: [
-// TextButton(onPressed: () {}, child: Text("Order")),
-// TextButton(onPressed: () {}, child: Text("Cancel")),
-// ],
-// ),
-// ),
-// );
-// },
-// ),

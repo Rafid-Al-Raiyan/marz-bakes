@@ -14,7 +14,11 @@ class ItemPage extends StatefulWidget {
 }
 
 class _ItemPageState extends State<ItemPage> {
-  List<String> admins = ['crystalizedmeteorite@gmail.com'];
+  List<String> admins = [
+    'crystalizedmeteorite@gmail.com',
+    'cse_2012020024@lus.ac.bd',
+    'marzbakes@gmail.com',
+  ];
   String currentUser = FirebaseAuth.instance.currentUser!.email!;
   FireStoreService fireStoreService = FireStoreService();
   TextEditingController searchController = TextEditingController();
@@ -196,7 +200,7 @@ class _ItemPageState extends State<ItemPage> {
               itemBuilder: (context, index) {
                 return InkWell(
                   onTap: () {
-                    if (admins.contains(currentUser)) {
+                    if (admins.contains(currentUser.toLowerCase())) {
                       Get.to(
                         const UpdateItemPage(),
                         arguments: [allItems[index], index],

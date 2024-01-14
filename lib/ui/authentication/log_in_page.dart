@@ -123,7 +123,7 @@ class _LogInPageState extends State<LogInPage> {
                 const IconWidget(iconSize: 200),
                 Divider(thickness: 2, color: color1),
                 Text(
-                  "Welcome to the Marz Bakes",
+                  "Welcome to the MarzBakes",
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: Get.textScaleFactor * 20,
