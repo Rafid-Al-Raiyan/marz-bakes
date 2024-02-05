@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:marz_bakes/backend_services/auth_services.dart';
 import 'package:marz_bakes/ui/authentication/log_in_page.dart';
-import 'package:marz_bakes/ui/customer/cart_page.dart';
 import 'package:marz_bakes/ui/customer/favourite_items_page.dart';
 import 'package:marz_bakes/ui/customer/orders_page.dart';
 import 'package:marz_bakes/ui/customer/view_menu_page.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'cart_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);

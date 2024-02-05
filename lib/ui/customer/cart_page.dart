@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:marz_bakes/backend_services/firestore_services.dart';
+import 'package:marz_bakes/ui/customer/order_all_page.dart';
 import 'package:marz_bakes/ui/customer/place_order.dart';
 
 class CartPage extends StatefulWidget {
@@ -35,6 +36,7 @@ class _CartPageState extends State<CartPage> {
           TextButton(
             onPressed: () async {
               await fireStoreService.removeItemsFromCart(productData);
+              Get.back();
               Get.snackbar(
                 "${productData['title']}",
                 "Successfully removed from cart",
@@ -42,7 +44,7 @@ class _CartPageState extends State<CartPage> {
                 backgroundColor: Colors.green,
                 colorText: Colors.white,
               );
-              Get.back();
+
               cartItems.clear();
               allItems.clear();
               showItems.clear();
@@ -70,7 +72,10 @@ class _CartPageState extends State<CartPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: showItems.isNotEmpty
-          ? GridView.builder(
+          ? Column(
+        children: [
+          Expanded(
+            child: GridView.builder(
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
                 crossAxisSpacing: 8.0,
@@ -90,15 +95,19 @@ class _CartPageState extends State<CartPage> {
                       ),
                       Text(
                         showItems[index]['title'],
-                        style: TextStyle(overflow: TextOverflow.ellipsis,
-                        fontWeight: FontWeight.bold, fontSize: Get.textScaleFactor * 16, color:
-                            Colors.white),
+                        style: TextStyle(
+                            overflow: TextOverflow.ellipsis,
+                            fontWeight: FontWeight.bold,
+                            fontSize: Get.textScaleFactor * 16,
+                            color: Colors.white),
                       ),
                       Text(
                         '${showItems[index]['price']} TK ${showItems[index]['unit'].toString().toUpperCase()}',
-                        style: TextStyle(overflow: TextOverflow.ellipsis,
-                        fontWeight: FontWeight.bold, fontSize: Get.textScaleFactor * 16, color:
-                            Colors.white),
+                        style: TextStyle(
+                            overflow: TextOverflow.ellipsis,
+                            fontWeight: FontWeight.bold,
+                            fontSize: Get.textScaleFactor * 16,
+                            color: Colors.white),
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -123,10 +132,24 @@ class _CartPageState extends State<CartPage> {
                   ),
                 );
               },
-            )
-          : const Center(
-              child: Text('No Cart Items'),
             ),
+          ),
+          if (showItems.length > 1)
+            ElevatedButton(
+              onPressed: () {
+                Get.to(() => const OrderAllPage(), arguments: showItems);
+              },
+              style: ElevatedButton.styleFrom(minimumSize: Size(Get.width * 0.5, 50)),
+              child: const Text(
+                "Order All",
+                style: TextStyle(fontSize: 20),
+              ),
+            )
+        ],
+      )
+          : const Center(
+        child: Text('No Cart Items'),
+      ),
     );
   }
 }

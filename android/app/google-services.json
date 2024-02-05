@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "984654248389",
-    "project_id": "marz-bakes",
-    "storage_bucket": "marz-bakes.appspot.com"
+    "project_number": "503886288311",
+    "project_id": "marzbakes-18bf9",
+    "storage_bucket": "marzbakes-18bf9.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:984654248389:android:ed3d270c1b0faf0778b3ac",
+        "mobilesdk_app_id": "1:503886288311:android:359c44888f95bf12938432",
         "android_client_info": {
           "package_name": "com.example.marz_bakes"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyCjg777Klguyh3ryQPCr_JRtQ-N7CP9bEA"
+          "current_key": "AIzaSyAWo8UhucCC0RaK2KF6E2Y1pSvAd8yx400"
         }
       ],
       "services": {

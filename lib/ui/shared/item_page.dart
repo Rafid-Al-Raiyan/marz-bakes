@@ -271,10 +271,20 @@ class _ItemPageState extends State<ItemPage> {
               itemBuilder: (context, index) {
                 return InkWell(
                   onTap: () {
-                    Get.to(
-                      const UpdateItemPage(),
-                      arguments: [allItems[index], index],
-                    );
+                    if (admins.contains(currentUser.toLowerCase())) {
+                      Get.to(
+                        const UpdateItemPage(),
+                        arguments: [
+                          allItems[searchResult[index]],
+                          searchResult[index],
+                        ],
+                      );
+                    } else {
+                      Get.to(() => const ViewSingleItem(), arguments: [
+                        allItems[searchResult[index]],
+                        searchResult[index],
+                      ]);
+                    }
                   },
                   child: Card(
                     color: Colors.pinkAccent.shade100,

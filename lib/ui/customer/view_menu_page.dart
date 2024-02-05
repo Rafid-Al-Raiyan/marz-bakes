@@ -31,7 +31,7 @@ class _ViewMenuPageState extends State<ViewMenuPage> {
               items: images.map((String url) {
                 return SizedBox(
                   height: Get.height * 0.2,
-                  width: Get.width,
+                  width: Get.width * 0.7,
                   child: Image(
                     image: AssetImage(url),
                     fit: BoxFit.fill,
